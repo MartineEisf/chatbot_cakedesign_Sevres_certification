@@ -1,0 +1,496 @@
+/* Import Georgia (système) et fallback serif */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700&display=swap');
+
+/* Palette La Pâtisserie des Brotteaux */
+:root {
+    --primary: #2c2c2c;
+    --accent: #d4a574;
+    --secondary: #8b7355;
+    --light: #f5f0e8;
+    --white: #fafaf8;
+    --gradient-start: #f0c8a0;
+    --gradient-end: #d4a574;
+    --text: #2c2c2c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body { 
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden; /* Empêche le débordement horizontal */
+}
+
+body {
+    font-family: Georgia, 'Bodoni Moda', 'Times New Roman', serif;
+    background-color: var(--white);
+    color: var(--text);
+    line-height: 1.8;
+}
+
+/* ============================================
+   STRUCTURE DE BASE (MOBILE-FIRST) - 1 COLONNE
+   ============================================ */
+
+/* Le wrapper principal qui contient toutes les sections */
+.wrapper {
+    width: 100%;
+    max-width: 1500px; /* Garde une largeur max pour les très grands écrans */
+    margin: 0 auto; /* Centre le contenu */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Espace entre les blocs */
+}
+
+/* Tous les conteneurs directs du wrapper sont maintenant des blocs simples */
+.info-column,
+.chat-container,
+.notes-column,
+.notes-section-bottom {
+    width: 100%;
+    position: static; /* On supprime le 'sticky' pour la base mobile */
+}
+
+.notes-section-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+/* ============================================
+   STYLES DES COMPOSANTS (INCHANGÉS)
+   ============================================ */
+
+/* Colonne de Chat */
+.chat-column {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border-radius: 12px; 
+    box-shadow: 0 4px 16px rgba(44, 44, 44, 0.08); 
+    overflow: hidden;
+    border: 1px solid rgba(212, 165, 116, 0.15);
+    /* min-height: 70vh; a été supprimé pour résoudre le problème d'espacement */
+}
+
+.notes-textarea {
+    width: 100%;
+    height: 200px; 
+    padding: 12px 14px;
+    border: 2px solid rgba(139, 115, 85, 0.2);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: Georgia, serif;
+    background-color: var(--white);
+    resize: vertical;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.notes-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.12);
+}
+
+.header {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 24px 28px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+    flex-shrink: 0;
+}
+
+.header h1 { 
+    font-size: 26px; 
+    font-weight: 400; 
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-family: 'Bodoni Moda', Georgia, serif;
+}
+
+.subtitle { 
+    font-size: 13px; 
+    font-weight: 400; 
+    opacity: 0.92;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header-actions { 
+    display: none; 
+}
+
+.name-input-section { 
+    padding: 18px 24px; 
+    background: linear-gradient(135deg, rgba(240, 200, 160, 0.12), rgba(212, 165, 116, 0.08));
+    border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.name-input { 
+    flex: 1;
+    padding: 14px 18px; 
+    border: 2px solid rgba(139, 115, 85, 0.3);
+    border-radius: 10px; 
+    font-size: 15px; 
+    font-family: Georgia, serif; 
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+    background-color: var(--white);
+}
+
+.name-input:focus { 
+    outline: none; 
+    border-color: var(--accent);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.15);
+}
+
+.name-input::placeholder { 
+    color: var(--secondary);
+    font-weight: 400;
+    font-style: italic;
+}
+
+.validate-name-btn {
+    padding: 14px 24px;
+    background: var(--accent);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s, background-color 0.3s;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+.validate-name-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 165, 116, 0.25);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+}
+
+.validate-name-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Encadré d'information boutique */
+.info-card {
+    background: linear-gradient(180deg, var(--white), var(--light));
+    border-left: 3px solid var(--accent);
+    padding: 20px 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(44, 44, 44, 0.06);
+    font-size: 13px;
+    color: var(--text);
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+    /* No gap needed anymore as it's a single element wrapper */
+}
+
+.notes-section, .disclaimer-section {
+    width: 100%;
+}
+
+
+.info-card-logo { 
+    height: 120px; 
+    width: auto; 
+    margin-bottom: 16px; 
+    display: block; 
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44, 44, 44, 0.08);
+}
+
+.info-card h3 { 
+    margin: 0 0 12px 0; 
+    font-size: 17px; 
+    color: var(--primary);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.info-card ul { 
+    margin: 8px 0 0 20px; 
+    padding: 0; 
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.info-card p { 
+    margin: 8px 0; 
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.info-card strong {
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+.chat-box {
+    overflow-y: auto;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--white);
+    min-height: 300px;
+}
+
+.chat-box::-webkit-scrollbar { width: 8px; }
+.chat-box::-webkit-scrollbar-track { background: var(--light); }
+.chat-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+.chat-box::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+
+.message { 
+    display: flex; 
+    animation: slideIn 0.35s ease-out; 
+}
+
+@keyframes slideIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: none; } 
+}
+
+.message.user { justify-content: flex-end; }
+.message.ai { justify-content: flex-start; }
+
+.bubble {
+    max-width: 80%; 
+    padding: 16px 22px; 
+    border-radius: 18px; 
+    word-wrap: break-word;
+    font-size: 15px; 
+    line-height: 1.7; 
+    font-weight: 400;
+}
+
+.message.user .bubble { 
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: var(--white); 
+    border-bottom-right-radius: 6px; 
+    box-shadow: 0 3px 12px rgba(212, 165, 116, 0.18);
+}
+
+.message.ai .bubble { 
+    background: var(--light);
+    color: var(--primary); 
+    border-bottom-left-radius: 6px; 
+    box-shadow: 0 3px 12px rgba(44, 44, 44, 0.06);
+    border: 1px solid rgba(139, 115, 85, 0.12);
+}
+
+.typing-indicator { 
+    display: flex; 
+    gap: 8px; 
+    align-items: center; 
+    padding: 14px 20px; 
+    background: var(--light); 
+    border-radius: 18px; 
+    width: fit-content;
+    border: 1px solid rgba(139, 115, 85, 0.12);
+}
+
+.dot-flashing {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    animation: dotFlashing 1s infinite linear alternate;
+}
+
+.dot-flashing::before,
+.dot-flashing::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent);
+}
+
+.dot-flashing::before { left: -12px; animation: dotFlashing 1s infinite alternate; animation-delay: 0s; }
+.dot-flashing::after { left: 12px; animation: dotFlashing 1s infinite alternate; animation-delay: 1s; }
+
+@keyframes dotFlashing {
+    0% { background-color: var(--accent); }
+    50%, 100% { background-color: rgba(212, 165, 116, 0.3); }
+}
+
+.input-area-wrapper { 
+    padding: 0; 
+    background: var(--white); 
+    border-top: 1px solid rgba(139, 115, 85, 0.15); 
+}
+
+.input-area { 
+    display: flex; 
+    gap: 12px; 
+    padding: 16px 20px; 
+}
+
+.disclaimer-text { 
+    font-size: 11px; 
+    color: var(--secondary); 
+    padding: 0 20px;
+    margin-top: 12px;
+    font-style: italic; 
+    text-align: center;
+    line-height: 1.6;
+}
+
+#messageInput { 
+    flex: 1; 
+    padding: 14px 20px; 
+    border: 2px solid rgba(139, 115, 85, 0.2); 
+    border-radius: 10px; 
+    font-size: 15px; 
+    outline: none; 
+    transition: border-color 0.3s, box-shadow 0.3s, opacity 0.3s;
+    font-family: Georgia, serif;
+    background-color: var(--white);
+    min-width: 0;
+}
+
+#messageInput:focus { 
+    border-color: var(--accent); 
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.12); 
+}
+
+#messageInput:disabled { 
+    background-color: rgba(139, 115, 85, 0.05); 
+    cursor: not-allowed; 
+    opacity: 0.6; 
+}
+
+#messageInput::placeholder { 
+    color: var(--secondary);
+    font-style: italic;
+}
+
+#sendBtn { 
+    padding: 14px 28px; 
+    background: var(--accent); 
+    color: var(--white); 
+    border: none; 
+    border-radius: 10px; 
+    font-size: 15px; 
+    font-weight: 500; 
+    cursor: pointer; 
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s, background 0.3s;
+    letter-spacing: 0.5px;
+}
+
+#sendBtn:hover:not(:disabled) { 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(212, 165, 116, 0.25);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+}
+
+#sendBtn:disabled { 
+    opacity: 0.4; 
+    cursor: not-allowed; 
+}
+
+/* --- Calendrier --- */
+#calendar-container {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(44, 44, 44, 0.06);
+    border: 1px solid rgba(212, 165, 116, 0.15);
+}
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.calendar-month-year { font-weight: normal; font-size: 1em; color: #4a3f35; }
+.calendar-nav { background: #c9a978; border: none; color: white; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: background 0.3s; }
+.calendar-nav:hover:not(:disabled) { background: #b8976a; }
+.calendar-nav:disabled { background: #e0e0e0; color: #999; cursor: not-allowed; }
+.calendar-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.calendar-table th { padding: 8px; text-align: center; font-weight: normal; color: #4a3f35; border-bottom: 2px solid #e8dcc8; font-size: 1em; }
+.calendar-table td { padding: 10px; text-align: center; border: 1px solid #f5f0e8; color: #4a3f35; font-size: 1em; }
+.calendar-table td:empty { border: none; }
+.calendar-table td.monday { background-color: #e8dcc8; }
+.calendar-table td.highlighted { position: relative; }
+.calendar-table td.highlighted::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 32px; height: 32px; border: 2px solid #b8976a; border-radius: 50%; }
+
+/* Nouveau conteneur pour la colonne de gauche */
+.sidebar-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espace réduit entre info et calendrier */
+}
+
+/* --- Debug Panel --- */
+#debugPanel { display: none; } /* Caché par défaut */
+.debug-toggle { display: none; } /* Caché par défaut */
+
+/* ============================================
+   RESPONSIVE - AJOUT DE LA GRILLE POUR DESKTOP
+   ============================================ */
+
+@media (min-width: 1024px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: 300px 1fr 300px; /* 3 colonnes */
+        grid-template-rows: auto auto auto; /* 3 lignes auto-dimensionnées */
+        align-items: start; /* Aligne les blocs en haut de leur cellule de grille */
+        column-gap: 24px; /* Espace horizontal entre les colonnes */
+        row-gap: 16px; /* Espace vertical entre les lignes */
+    }
+
+    /* Placement explicite avec grid-column et grid-row */
+    .sidebar-left {
+        grid-column: 1;
+        grid-row: 1 / 4; /* S'étend sur toutes les lignes */
+        position: sticky;
+        top: 20px;
+        align-self: start;
+    }
+
+    .chat-container {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    
+    .notes-section {
+        grid-column: 2;
+        grid-row: 2;
+        position: static; /* Pas de positionnement fixe */
+        align-self: start;
+        justify-self: stretch;
+    }
+
+    .disclaimer-section {
+        grid-column: 2;
+        grid-row: 3;
+    }
+    
+    .notes-column {
+        grid-column: 3;
+        grid-row: 1 / 4; /* S'étend sur toutes les lignes */
+        position: sticky;
+        top: 20px;
+        align-self: start;
+    }
+}
