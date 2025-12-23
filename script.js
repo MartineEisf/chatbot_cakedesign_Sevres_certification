@@ -288,6 +288,16 @@ async function sendMessage() {
 
     if (!message) return;
 
+    examController.onUserSendMessage();
+
+        if (
+        typeof examController !== 'undefined'
+        && examController
+        && typeof examController.onUserSendMessage === 'function'
+    ) {
+        examController.onUserSendMessage(message);
+    }
+
     if (WEBHOOK_URL === 'YOUR_MAKE_WEBHOOK_URL_HERE') {
         alert('⚠️ Veuillez configurer votre URL webhook Make dans script.js');
         return;
@@ -576,6 +586,10 @@ async function displayProgressively(text, sender) {
             await new Promise(resolve => setTimeout(resolve, speed));
         }
     }
+// ✅ FIN DE RÉPONSE BOT → relance le timer examen
+if (sender === 'ai') {
+  examController.onBotResponseDone();
+}
 }
 
 /**
@@ -631,4 +645,18 @@ function renderCalendar(date) {
 
     html += '</tbody></table></div>';
     calendarContainer.innerHTML = html;
+}
+function startChat(nameValue) {
+    const messageInput = document.getElementById('messageInput');
+    const nameInputSection = document.querySelector('.name-input-section');
+    clientName = nameValue;
+    if (messageInput) {
+        messageInput.disabled = false;
+        messageInput.placeholder = 'Écrivez votre message...';
+        messageInput.focus();
+    }
+    if (nameInputSection) nameInputSection.hidden = true;
+
+    // AJOUT JUSTE ICI (fin de la fonction) :
+    displayProgressively("Bonjour, je voudrais passer une commande.", 'ai');
 }

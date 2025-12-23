@@ -1,0 +1,100 @@
+<!-- ============================================
+     INTÉGRATION DU SYSTÈME D'EXAMEN
+     ============================================
+     
+     1. Ajouter dans <head> après les autres styles :
+     ============================================ -->
+
+<link rel="stylesheet" href="examModal.css">
+
+<!-- ============================================
+     2. Ajouter avant la fermeture de </body>, APRÈS script.js :
+     ============================================ -->
+
+<script src="chatExamController.js"></script>
+<script>
+    // Initialiser le contrôleur d'examen
+    document.addEventListener('DOMContentLoaded', () => {
+        examController.init();
+    });
+
+    // Brancher sur l'envoi de message utilisateur
+    // Modifier la fonction sendMessage() dans script.js
+    // Ajouter au début de sendMessage(), après la validation :
+    // examController.onUserSendMessage();
+
+    // Brancher sur la fin de réponse du bot
+    // Modifier displayProgressively() dans script.js
+    // Ajouter à la fin de la fonction (après l'affichage) :
+    // if (sender === 'ai') {
+    //     examController.onBotResponseDone();
+    // }
+</script>
+
+<!-- ============================================
+     3. MODIFICATIONS DANS script.js
+     ============================================
+     
+     Dans la fonction sendMessage(), ligne ~289 :
+     ============================================ -->
+
+async function sendMessage() {
+const messageInput = document.getElementById('messageInput');
+const sendBtn = document.getElementById('sendBtn');
+const message = messageInput.value.trim();
+
+if (!message) return;
+
+// ✅ AJOUTER ICI
+examController.onUserSendMessage();
+
+if (WEBHOOK_URL === 'YOUR_MAKE_WEBHOOK_URL_HERE') {
+alert('⚠️ Veuillez configurer votre URL webhook Make dans script.js');
+return;
+}
+
+// ... reste du code existant
+}
+
+<!-- ============================================
+     Dans la fonction displayProgressively(), ligne ~541 :
+     ============================================ -->
+
+async function displayProgressively(text, sender) {
+const chatBox = document.getElementById('chatBox');
+messageCounter++;
+const messageId = `${conversationId}-msg-${messageCounter}`;
+
+const messageDiv = document.createElement('div');
+messageDiv.className = `message ${sender}`;
+messageDiv.id = messageId;
+messageDiv.setAttribute('data-message-id', messageId);
+messageDiv.setAttribute('data-conversation-id', conversationId);
+messageDiv.setAttribute('data-chatbot-name', chatbotName);
+messageDiv.setAttribute('data-timestamp', new Date().toISOString());
+
+const bubble = document.createElement('div');
+bubble.className = 'bubble';
+
+messageDiv.appendChild(bubble);
+chatBox.appendChild(messageDiv);
+
+console.log(`Message ID: ${messageId}`);
+console.log(`Conversation ID: ${conversationId}`);
+console.log(`Chatbot Name: ${chatbotName}`);
+
+if (text.includes('<') && text.includes('>')) {
+    bubble.innerHTML = text;
+    chatBox.scrollTop = chatBox.scrollHeight;
+    } else {
+    const speed = 20;
+    for (let i = 0; i < text.length; i++) { bubble.textContent +=text[i]; chatBox.scrollTop=chatBox.scrollHeight; await
+        new Promise(resolve=> setTimeout(resolve, speed));
+        }
+        }
+
+        // ✅ AJOUTER ICI
+        if (sender === 'ai') {
+        examController.onBotResponseDone();
+        }
+        }
