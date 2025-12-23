@@ -629,6 +629,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="examModal.css">
 </head>
 
 <body>
@@ -748,8 +749,7 @@
     </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
+<script>
         /**
          * Affiche un calendrier pour un mois et une année donnés.
          * @param {Date} date La date indiquant le mois et l'année à afficher.
@@ -854,7 +854,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderCalendar(currentCalendarDate);
         });
-    </script>
+</script>
+
+<script src="script.js"></script>
+<script src="chatExamController.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    examController.init();
+  });
+</script>
+    
 </body>
 
 </html>
